@@ -1,29 +1,14 @@
 return function(mod)
-  local mapEnteredPath = mod.assets:path("assets/eventsounds/new_game.ogg")
-  -- local saveLoadedPath = mod.assets:path("assets/eventsounds/continue.ogg")
+  local soundPath = mod.assets:path("assets/event.ogg")
   local duckUntil = 0
 
-  local function playSound(path)
-    local ok, src = pcall(love.audio.newSource, path, "static")
+  local function playSound()
+    local ok, src = pcall(love.audio.newSource, soundPath, "static")
     if ok and src then
       duckUntil = love.timer.getTime() + 2.5
       src:play()
     end
   end
-
-  -- To play a random sound from a pool instead of one fixed file, define a
-  -- list of paths and pick one at play time:
-  --
-  -- local voicePool = {
-  --   mod.assets:path("assets/voice1.ogg"),
-  --   mod.assets:path("assets/voice2.ogg"),
-  --   mod.assets:path("assets/voice3.ogg"),
-  -- }
-  -- local function playRandom(pool)
-  --   playSound(pool[math.random(#pool)])
-  -- end
-  -- -- then call playRandom(voicePool) instead of playSound(mapEnteredPath),
-  -- -- or playRandom(voicePool) instead of playSound(saveLoadedPath), below
 
   mod.hooks:wrap("music.volume", function(next, vol, ctx)
     vol = next(vol, ctx)
@@ -33,6 +18,6 @@ return function(mod)
     return vol
   end)
 
-  mod.events:once("map.entered", function() playSound(mapEnteredPath) end)
-  -- mod.events:once("save.loaded", function() playSound(saveLoadedPath) end)
+  mod.events:once("intro.oak_speech.finished", playSound)
+  mod.events:once("save.loaded", playSound)
 end
