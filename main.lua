@@ -13,7 +13,7 @@ return function(mod)
     -- to. Heads up: CHARACTER's value gets used as a literal folder name
     -- under assets/, so it has to match the real folder exactly, caps
     -- and all
-    -- ||Telling on myself here, I spent more time on this than I should've||.
+    -- ||Telling on myself here, I spent more time on wrong case troubleshooting than I should've||.
     mod.options:define({
       { key = "voice_lines", type = "toggle", label = "VOICE LINES", default = true },
       { key = "voice_vol", type = "number", label = "VOICE VOL",
@@ -34,7 +34,7 @@ return function(mod)
 
     -- need both the toggle on AND volume above 0 - that way muting
     -- through the toggle doesn't touch your saved volume number, but
-    -- dragging volume down to 0 still shuts everything off too
+    -- taking volume down to 0 still shuts everything off too
     local function voiceLinesOn()
       return mod.options:get("voice_lines") and voiceVolume() > 0
     end
