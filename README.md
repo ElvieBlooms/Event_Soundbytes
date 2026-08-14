@@ -41,6 +41,7 @@ Sound files live in `assets/` and aren't tracked as placeholders in this repo st
 
 - Voice lines are shared across all party/player customization — no per-save or per-character variant selection yet.
 - No in-game toggle yet to disable the sounds without removing the mod.
+- Jessie character option only has a new game voice line and it's Kris's. For now it's a place holder and all other events are silent with Jessie selected.
 
 ## Credits
 
