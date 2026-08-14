@@ -1,0 +1,25 @@
+return {
+  summary = "Voice lines for New Game, Continue, battles, and rare day/night moments -- built as a companion to the Crystal player mod.",
+  author = "ElvieBlooms",
+  tags = { "audio", "character", "voice-lines", "cosmetic" },
+  differences = {
+    changed = {
+      "Music volume ducks briefly whenever a voice line plays -- duration is adjustable",
+    },
+    added = {
+      "Voice lines on New Game and Continue",
+      "Occasional battle reaction lines on landing a hit or inflicting status",
+      "Rare day/night ambient lines",
+      "VOICE LINES / VOICE VOL / DUCK TIME / CHARACTER options in the Mods manager",
+    },
+    known = {
+      "Jessie is selectable under CHARACTER but only has a New Game line so far",
+      "Day/night lines rarely fire on Gen 1 (Red/Blue/Yellow), which has no built-in day/night clock",
+    },
+  },
+  credits = {
+    { who = "Kris, Pokemon Masters EX (DeNA / The Pokemon Company)", for_ = "voice lines" },
+    { who = "dburton95's Crystal mod", for_ = "the pairing this mod was built around" },
+  },
+  compat = { engine = ">=1.0.0 <2.0.0", modApi = 2 },
+}
