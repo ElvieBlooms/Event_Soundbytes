@@ -4,14 +4,22 @@ A [Gen1Recomp](https://github.com/bryanthaboi/gen1recomp) mod that adds characte
 
 Built as a companion to the [Crystal](https://github.com/dburton95/crystal) player mod — the voice lines are Kris's lines from *Pokémon Masters EX*, so if you're already using Crystal to look the part, Trainer Talk gives her a voice to match. It works fine on its own too, without Crystal installed. A CHARACTER option lays the groundwork for other voice packs down the line (Jessie is next up — see Known limitations).
 
+Holding off on new features while voice assets get added — several categories below exist in the code but are commented out until audio's ready.
+
 ## Features
 
 - A single fixed voice line plays on **New Game**
 - One of several random voice lines plays on **Continue**, so reloading a save doesn't feel identical every time
-- Occasional (~15%) voice line on landing a hit in battle, and a rarer (~10%) one on inflicting a status effect — timed so hits land after the move animation resolves, and hit/status lines can't play back-to-back
-- Very rare (~5%) ambient lines on genuine day/night transitions
+- Adjustable-frequency voice lines on landing a hit or inflicting a status effect in battle — timed so hits land after the move animation resolves, and hit/status lines can't play back-to-back 
+- Adjustable-frequency ambient lines on genuine day/night transitions
 - Background music ducks briefly while a line plays, so it isn't buried — the duck duration is adjustable
-- In-game settings (Mods manager): **VOICE LINES** on/off, **VOICE VOL** (0-7, same scale as Music/SFX/Pikachu), **DUCK TIME** (0-5s, half-second steps), and **CHARACTER** select
+- In-game settings, all in the Mods manager:
+  - **VOICE LINES** on/off, **VOICE VOL** (0-7, same scale as Music/SFX/Pikachu)
+  - **DUCK TIME** (0-5s, half-second steps)
+  - **CHARACTER** — which voice pack everyday lines use
+  - **MILESTONE VOICE** — separately choose who voices the big battle-outcome moments (defaults to following CHARACTER; a stadium-announcer pack is plannable independently)
+  - **BATTLE BARKS** / **DAY/NIGHT** — OFF/RARE/NORMAL/FREQUENT, combining an on/off switch and a frequency dial into one control
+  - **GAME START** / **REACTIONS** / **MOMENTS** / **GYM BADGES** / **ELITE FOUR** / **CHAMPION** — per-category on/off (some of these categories aren't live yet — see below)
 - Works on Gen 1 (Red/Blue/Yellow) and Gen 2 (Gold)
 
 ## Installation
@@ -22,7 +30,7 @@ Built as a companion to the [Crystal](https://github.com/dburton95/crystal) play
    - macOS: `~/Library/Application Support/LOVE/pokemon-love2d/mods/`
    - Linux: `~/.local/share/love/pokemon-love2d/mods/`
 3. Restart the game.
-4. Open the **MODS** panel, select **Trainer Talk**, and confirm it shows as `ENABLED`. VOICE LINES, VOICE VOL, DUCK TIME, and CHARACTER are all set from this same screen.
+4. Open the **MODS** panel, select **Trainer Talk**, and confirm it shows as `ENABLED`. All settings are set from this same screen.
 
 ## How it works
 
@@ -31,9 +39,11 @@ Gen1Recomp doesn't expose a hook that fires directly on a title-screen button pr
 - `intro.oak_speech.finished` — fires once the player finishes the New Game naming/intro sequence
 - `save.loaded` — fires after an existing save is read and validated (Continue)
 
-Battle lines hook `battle.damage_dealt` and `battle.status_inflicted`, each gated behind a chance roll and a shared cooldown so they stay occasional rather than constant. Day/night lines hook `world.tod_changed`, matching on Gold's `MORN`/`DAY`/`NITE`/`DARK` daytime values — note that Gen 1 has no built-in day/night clock, so these will mostly stay quiet on Red/Blue/Yellow unless another mod adds one.
+Battle lines hook `battle.damage_dealt` and `battle.status_inflicted`, each gated behind a chance roll (adjustable via BATTLE BARKS) and a shared cooldown so they stay occasional rather than constant. Day/night lines hook `world.tod_changed`, matching on Gold's `MORN`/`DAY`/`NITE`/`DARK` daytime values — note that Gen 1 has no built-in day/night clock, so these will mostly stay quiet on Red/Blue/Yellow unless another mod adds one.
 
 Music ducking hooks `music.volume` and scales it down for a configurable window (DUCK TIME) after any line starts.
+
+Planned (not yet active) categories wrap gym/Elite Four encounters on both ends — an intro line via `world.trainer_engaged` when the trainer challenges you, and an outcome line via `battle.ended` when you win — plus a confirmed Champion/Hall of Fame trigger via `screen.pushed`.
 
 ## Structure
 
@@ -41,7 +51,7 @@ Music ducking hooks `music.volume` and scales it down for a configurable window 
 
 ## Assets
 
-Sound files live under `assets/<character>/`, matching whichever value is selected in the CHARACTER option:
+Sound files live under `assets/<folder>/` — `<folder>` is whichever value CHARACTER (or, for milestone moments, MILESTONE VOICE) resolves to:
 
 - `assets/kris/new_game.ogg` — plays on New Game
 - `assets/kris/continue1.ogg` through `continue4.ogg` — random pool for Continue
@@ -49,12 +59,14 @@ Sound files live under `assets/<character>/`, matching whichever value is select
 - `assets/kris/status1.ogg` — plays on inflicting a status effect
 - `assets/kris/night1.ogg`, `night2.ogg` — random pool for night
 - `assets/kris/morning1.ogg` — plays on morning
+- `assets/jessie/new_game.ogg` — Jessie's only line so far
 
 ## Known limitations
 
 - Jessie is selectable under CHARACTER but only has a New Game line so far — everything else stays silent with her selected until more of her lines are added
 - Day/night lines are effectively Gold-only until Gen 1 has a real day/night clock (its own or another mod's)
 - No per-save variation — every save shares the same settings
+- Reactions, Moments, Gym Badges, Elite Four, and Champion are wired in code but commented out — no assets exist for them yet
 
 ## Credits
 
