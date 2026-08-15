@@ -68,3 +68,7 @@ Forks and collaboration are welcome — whether that's swapping in your own voic
 ## License
 
 MIT — see [LICENSE](LICENSE).
+
+## Disclaimer
+
+This is an unofficial fan-made mod for gen1recomp. It is not affiliated with or endorsed by Nintendo, Game Freak, The Pokémon Company, or the gen1recomp maintainers. No Pokémon ROM is included.
