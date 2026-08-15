@@ -167,7 +167,7 @@ function voice.init(mod)
     -- shared cooldown between hit and status barks - both go through
     -- attemptBark and check against the same lastBarkAt, so they can't
     -- ever stack on top of each other no matter which one fires first
-    local BARK_COOLDOWN = 5
+    local BARK_COOLDOWN = 6
     local lastBarkAt = -math.huge
 
     local function attemptBark(pool)
