@@ -1,0 +1,132 @@
+TRAINER TALK -- BUILD YOUR OWN VOICE PACK
+=============================================
+A plain-English guide to what each sound file is for, so you can record
+or source your own lines and drop them in -- no code editing required.
+
+HOW THIS WORKS
+------------------
+Every voice line lives in a folder under assets/characters/ -- kris/
+and jessie/ are the two that ship with the mod. CHARACTER discovers
+whatever folders actually exist there automatically, so you don't even
+need to replace an existing one: just create a new folder (any name)
+under assets/characters/, drop your own recordings in using the same
+filenames as the list below, and it shows up as a real CHARACTER
+option next time the mod loads -- genuinely no code editing required,
+for a brand new character slot or a replacement either one.
+
+An optional meta.json inside your folder sets the display name, e.g.:
+  { "label": "MY CHARACTER" }
+Without one, the folder name itself (uppercased) is used instead, so
+it's worth adding one if the folder name isn't meant to be read
+directly as the label.
+
+You don't need to fill in every single file below to get started --
+anything missing just stays quietly silent for that one moment,
+nothing breaks. Build it out gradually if you'd rather.
+
+TWO THINGS WORTH KNOWING BEFORE THE LIST
+---------------------------------------------
+- Numbered files (hit1.ogg, hit2.ogg, hit3.ogg, etc.) are NOT a
+  sequence -- they're alternates. The game picks one at random each
+  time. You only need one to make that moment work at all; add a 2nd
+  or 3rd later purely for variety if you want it to feel less
+  repetitive.
+- "E4" means Elite Four (the four powerful trainers you face right
+  before the Champion) -- it's the only abbreviation used anywhere in
+  these filenames.
+
+
+GAME START
+==============
+Event (plain English)                          File(s)
+---------------------------------------------------------------------
+Starting a brand new game                       new_game.ogg
+Continuing an existing save                      continue1.ogg
+                                                  continue2.ogg
+                                                  continue3.ogg
+                                                  continue4.ogg
+                                                  continue5.ogg
+
+
+BATTLE REACTIONS
+====================
+Event (plain English)                          File(s)
+---------------------------------------------------------------------
+Landing an ordinary hit                          hit1.ogg
+                                                  hit2.ogg
+                                                  hit3.ogg
+Landing a critical hit                           hit_crit.ogg
+                                                  hit_crit2.ogg
+A move misses                                    move_miss.ogg
+                                                  move_miss2.ogg
+Inflicting a status effect on the opponent        status_enemy.ogg
+                                                  status_enemy2.ogg
+                                                  (poison, paralysis, sleep, etc.)
+Your own Pokemon gets a status effect              status_player.ogg
+                                                  status_player2.ogg
+                                                  (same list, but it happened
+                                                  to you instead)
+Successfully escaping a battle                    run_success.ogg
+                                                  run_success2.ogg
+Failing to escape a battle                        run_fail.ogg
+                                                  run_fail2.ogg
+Your own Pokemon faints                           faint_player.ogg
+                                                  faint_player2.ogg
+Failing to catch a wild Pokemon                    catch_fail.ogg
+                                                  catch_fail2.ogg
+The opponent's Pokemon faints                      faint_enemy.ogg
+                                                  faint_enemy2.ogg
+
+
+MOMENTS
+===========
+Event (plain English)                          File(s)
+---------------------------------------------------------------------
+A Pokemon evolves                                evolved.ogg
+Catching a Pokemon you haven't caught before       new_catch.ogg
+                                                  new_catch2.ogg
+Your whole party faints (blacking out)             blackout.ogg
+                                                  blackout2.ogg
+                                                  (plays a moment after
+                                                  battle_loss, once you're
+                                                  back in the overworld)
+Winning an ordinary trainer battle                 battle_win.ogg
+                                                  battle_win2.ogg
+Losing an ordinary trainer battle                  battle_loss.ogg
+                                                  battle_loss2.ogg
+
+
+GYM & ELITE FOUR CHALLENGE LINES
+=====================================
+A gym leader or Elite Four member challenges you -- this is the
+"here we go" reaction line, not the win/congratulations line (see
+below for why).
+
+Event (plain English)                          File(s)
+---------------------------------------------------------------------
+A gym leader challenges you                       gym_intro.ogg
+                                                  gym_intro2.ogg
+                                                  gym_intro3.ogg
+An Elite Four member challenges you                e4_intro.ogg
+                                                  e4_intro2.ogg
+
+
+NOT PART OF A CHARACTER PACK -- THE MILESTONES FOLDER
+===========================================================
+You shouldn't need to touch this for a custom character. When you
+actually BEAT a gym leader, Elite Four member, or the Champion, the
+congratulations line comes from a separate folder (assets/milestones/)
+instead of your character folder -- that's intentional, so the
+leader's own voice (or a stadium announcer) can celebrate the win
+regardless of which character voice you've picked for everything else.
+There's already a toggle for choosing between packs there, in the
+Mods manager.
+
+These are separate, static events from a character pack's everyday
+lines -- but they follow the exact same drop-a-folder rule as
+CHARACTER above, entirely independently of building a character pack
+at all. If you wanted to add a third milestone voice option (a
+different announcer, say), that's just a new folder under
+assets/milestones/ with its own meta.json label, discovered the same
+way -- nothing about it depends on or interferes with whatever's in
+assets/characters/.
