@@ -1,81 +1,71 @@
 # Trainer Talk
 
-A [Gen1Recomp](https://github.com/bryanthaboi/gen1recomp) mod that adds character voice lines to a handful of moments — starting a New Game, Continuing a save, landing hits and status effects in battle, and rare day/night ambient lines — with the music briefly ducking underneath each one.
+A companion who actually talks to you.
 
-Built as a companion to the [Crystal](https://github.com/dburton95/crystal) player mod — the voice lines are Kris's lines from *Pokémon Masters EX*, so if you're already using Crystal to look the part, Trainer Talk gives her a voice to match. It works fine on its own too, without Crystal installed. A CHARACTER option lays the groundwork for other voice packs down the line (Jessie is next up — see Known limitations).
+Trainer Talk adds a voice to your Pokémon adventure — someone in your corner who reacts to what's actually happening as you play. She gets excited when you start a new save. She cheers when you land a good hit. She's there when you win, and she's there when you lose. Small moments, but they add up to a game that feels a little less like you're playing alone.
 
-Holding off on new features while voice assets get added — several categories below exist in the code but are commented out until audio's ready.
+Built to pair naturally with [Crystal](https://github.com/dburton95/crystal), the player-sprite mod — if you're already using Crystal to look the part, Trainer Talk gives her a voice to match. It works just as well on its own, too, with no other mods required.
 
-## Features
+## What she'll react to
 
-- A single fixed voice line plays on **New Game**
-- One of several random voice lines plays on **Continue**, so reloading a save doesn't feel identical every time
-- Adjustable-frequency voice lines on landing a hit or inflicting a status effect in battle — timed so hits land after the move animation resolves, and hit/status lines can't play back-to-back 
-- Adjustable-frequency ambient lines on genuine day/night transitions
-- Background music ducks briefly while a line plays, so it isn't buried — the duck duration is adjustable
-- In-game settings, all in the Mods manager:
-  - **VOICE LINES** on/off, **VOICE VOL** (0-7, same scale as Music/SFX/Pikachu)
-  - **DUCK TIME** (0-5s, half-second steps)
-  - **CHARACTER** — which voice pack everyday lines use
-  - **MILESTONE VOICE** — separately choose who voices the big battle-outcome moments (defaults to following CHARACTER; a stadium-announcer pack is plannable independently)
-  - **BATTLE BARKS** / **DAY/NIGHT** — OFF/RARE/NORMAL/FREQUENT, combining an on/off switch and a frequency dial into one control
-  - **GAME START** / **REACTIONS** / **MOMENTS** / **GYM BADGES** / **ELITE FOUR** / **CHAMPION** — per-category on/off (some of these categories aren't live yet — see below)
-- Works on Gen 1 (Red/Blue/Yellow) and Gen 2 (Gold)
+- **Starting a new game, or picking up where you left off** — a real hello every time
+- **Landing hits, inflicting status effects, critical hits, misses, close calls** — the little ups and downs of a battle, not just the big moments
+- **Catching a Pokémon for the first time, evolutions, day and night** — the quieter beats of the adventure get noticed too
+- **Winning or losing a battle** — she's in it with you either way
+- **Walking into a Gym or the Elite Four's chambers** — a real moment of "here we go" the second you step in, the leader's own challenge once you actually reach them, and their own congratulations if you win (their voice throughout, or a stadium announcer, your choice)
+- **Becoming Champion** — the biggest moment in the game gets treated like one
+
+Two full voices are included: **Kris** (cause she's the best) and **Jessie**, everyone's favorite member of Team Rocket. Pick whichever fits the adventure you want to have — the game remembers your choice.
+
+## Where things stand right now
+
+Everything above is live and fully voiced, including the personalized moment when you beat a Gym Leader or Elite Four member, they give you their own congratulations. Champion is complete too, on both ends of the fight.
+
+Gen 2 (Gold) is still catching up on that specific piece — see Installation below for the details on what does and doesn't carry over yet.
+
+## Settings
+
+Everything below lives in the in-game **Mods** menu — no files to edit, no digging required.
+
+| Setting | What it does |
+|---|---|
+| **VOICE LINES** | Turn all voice lines on or off |
+| **VOICE VOL** | How loud the voice lines play, on the same scale as your music and sound effect volume |
+| **DUCK TIME** | How long the music quiets down under a voice line, so you never miss a word |
+| **CHARACTER** | Choose your companion's voice — Kris, Jessie, or any others that get added down the line |
+| **MILESTONE VOICE** | Choose who voices the big Gym/Elite Four/Champion moments — a Gym Leader's own voice, or a stadium announcer |
+| **BATTLE BARKS** / **DAY-NIGHT** / **REACTIONS** | How often those specific reactions happen — off, rare, normal, or frequent, whatever feels right to you |
+| **FAINT REACTIONS** | How often she reacts to a Pokémon fainting specifically, on its own dial — off, sometimes, often, or always |
+| **GAME START**, **MOMENTS**, **GYM BADGES**, **ELITE FOUR**, **CHAMPION** | Turn any single category on or off, if you'd rather hear some moments and not others |
+
+Not sure where to start? The defaults are tuned to feel natural without being chatty — try it as-is for a while before you go tweaking.
 
 ## Installation
 
 1. Download the latest release `.zip` from the [Releases](../../releases) page.
-2. In-game: **MODS → Import mod .zip**, or extract manually into your Gen1Recomp `mods/` folder:
+2. In-game: **MODS → Import mod .zip** — or, if you'd rather do it by hand, extract the zip into your Gen1Recomp `mods/` folder:
    - Windows: `%APPDATA%\love\pokemon-love2d\mods\`
    - macOS: `~/Library/Application Support/LOVE/pokemon-love2d/mods/`
    - Linux: `~/.local/share/love/pokemon-love2d/mods/`
 3. Restart the game.
-4. Open the **MODS** panel, select **Trainer Talk**, and confirm it shows as `ENABLED`. All settings are set from this same screen.
+4. Open the **MODS** panel, select **Trainer Talk**, and make sure it shows as `ENABLED`. All the settings above live on that same screen.
 
-## How it works
-
-Gen1Recomp doesn't expose a hook that fires directly on a title-screen button press, so New Game / Continue are handled via:
-
-- `intro.oak_speech.finished` — fires once the player finishes the New Game naming/intro sequence
-- `save.loaded` — fires after an existing save is read and validated (Continue)
-
-Battle lines hook `battle.damage_dealt` and `battle.status_inflicted`, each gated behind a chance roll (adjustable via BATTLE BARKS) and a shared cooldown so they stay occasional rather than constant. Day/night lines hook `world.tod_changed`, matching on Gold's `MORN`/`DAY`/`NITE`/`DARK` daytime values — note that Gen 1 has no built-in day/night clock, so these will mostly stay quiet on Red/Blue/Yellow unless another mod adds one.
-
-Music ducking hooks `music.volume` and scales it down for a configurable window (DUCK TIME) after any line starts.
-
-Planned (not yet active) categories wrap gym/Elite Four encounters on both ends — an intro line via `world.trainer_engaged` when the trainer challenges you, and an outcome line via `battle.ended` when you win — plus a confirmed Champion/Hall of Fame trigger via `screen.pushed`.
-
-## Structure
-
-`main.lua` is a thin entry point that just requires `voice.lua` and calls `voice.init(mod)` — the same pattern Crystal itself uses (`main.lua` → per-feature module → `.init(mod)`). This is meant to make Trainer Talk easy to fold directly into another mod: copy `voice.lua` and the `assets/` folder into an existing mod's folder, `require` it from that mod's own `main.lua`, and call `.init(mod)` alongside its other features.
-
-## Assets
-
-Sound files live under `assets/<folder>/` — `<folder>` is whichever value CHARACTER (or, for milestone moments, MILESTONE VOICE) resolves to:
-
-- `assets/kris/new_game.ogg` — plays on New Game
-- `assets/kris/continue1.ogg` through `continue4.ogg` — random pool for Continue
-- `assets/kris/hit1.ogg`, `hit2.ogg` — random pool on landing a hit
-- `assets/kris/status1.ogg` — plays on inflicting a status effect
-- `assets/kris/night1.ogg`, `night2.ogg` — random pool for night
-- `assets/kris/morning1.ogg` — plays on morning
-- `assets/jessie/new_game.ogg` — Jessie's only line so far
-
-## Known limitations
-
-- Jessie is selectable under CHARACTER but only has a New Game line so far — everything else stays silent with her selected until more of her lines are added
-- Day/night lines are effectively Gold-only until Gen 1 has a real day/night clock (its own or another mod's)
-- No per-save variation — every save shares the same settings
-- Reactions, Moments, Gym Badges, Elite Four, and Champion are wired in code but commented out — no assets exist for them yet
+Works on Gen 1 (Red/Blue/Yellow) and Gen 2 (Gold) — on Gold, everything works except Gym Badges, Elite Four, and Champion specifically, which are Gen 1-only for now.
 
 ## Credits
 
-- Voice lines: Kris, *Pokémon Masters EX* (DeNA / The Pokémon Company)
 - Built to pair with [Crystal](https://github.com/dburton95/crystal) by dburton95
+- Obviously all of this is possible because of [gen1recomp](https://github.com/bryanthaboi/gen1recomp) by bryanthaboi
+
+## Want to build your own voice pack?
+
+Trainer Talk is designed so anyone can add a new voice — your own character, a favorite performer, whatever you'd like to hear in your playthrough. No coding required, just audio files in a folder. See `BUILD_YOUR_OWN_VOICE_PACK.txt` for a plain-English guide to what to record/source and where it goes.
+
+If you're a fellow mod author looking to understand how this one's actually built, the full technical documentation (every event, every design decision, and why) will lives alongside this README in the repo. (Work in Progress)
 
 ## Contributing
 
-Forks and collaboration are welcome — whether that's swapping in your own voice lines, hooking additional events, or general improvements. Feel free to open a PR or an issue.
+Forks and collaboration are welcome — new voice packs, new reactions, bug reports, all of it. Feel free to open a PR or an issue.
 
 ## License
 
@@ -83,4 +73,4 @@ MIT — see [LICENSE](LICENSE).
 
 ## Disclaimer
 
-This is an unofficial fan-made mod for gen1recomp. It is not affiliated with or endorsed by Nintendo, Game Freak, The Pokémon Company, or the gen1recomp maintainers. No Pokémon ROM is included.
+This is an unofficial fan-made mod for Gen1Recomp. It is not affiliated with or endorsed by Nintendo, Game Freak, The Pokémon Company, or the Gen1Recomp maintainers. No Pokémon ROM is included.
