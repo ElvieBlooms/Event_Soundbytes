@@ -329,10 +329,12 @@ function voice.init(mod)
       if not (ev.user and ev.user.isPlayer) then return end
       if not chance(50 * frequencyMultiplier("freq_reactions")) then return end
       local folder = characterFolder()
-      attemptBark({
+      -- same delay as hit1/2/3 above and for the same reason -- lands
+      -- after the hit animation/text instead of before it.
+      scheduleBark({
         mod.assets:path("assets/" .. folder .. "/hit_crit.ogg"),
         mod.assets:path("assets/" .. folder .. "/hit_crit2.ogg"),
-      })
+      }, 1.5)
     end)
 
     -- battle.accuracy is a hook, not an event -- nothing fires on a
@@ -346,10 +348,12 @@ function voice.init(mod)
       local isPlayerMove = ctx.user and ctx.user.isPlayer
       if not hit and isPlayerMove and chance(20 * frequencyMultiplier("freq_reactions")) then
         local folder = characterFolder()
-        attemptBark({
+        -- same delay as hit1/2/3 above -- lands after the miss
+        -- animation/text instead of before it.
+        scheduleBark({
           mod.assets:path("assets/" .. folder .. "/move_miss.ogg"),
           mod.assets:path("assets/" .. folder .. "/move_miss2.ogg"),
-        })
+        }, 1.5)
       end
       return hit
     end)
